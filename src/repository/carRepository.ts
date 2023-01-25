@@ -26,7 +26,7 @@ async function getCarWithLicensePlate(licensePlate: string) {
   return data;
 }
 
-async function createCar(model: string, licensePlate: string, year: string, color: string) {
+async function createCar(model: string, licensePlate: string, year: number, color: string) {
   /* await db.query(
     `INSERT INTO cars (model, "licensePlate", year, color)
      VALUES ($1, $2, $3, $4)`,
@@ -52,7 +52,7 @@ async function deleteCar(id: number) {
   })
 }
 
-async function updateCar(id: number, model: string, licensePlate: string, year: string, color: string) {
+async function updateCar(id: number, model: string, licensePlate: string, year: number, color: string) {
   await prisma.cars.update({
     where:{
       id
