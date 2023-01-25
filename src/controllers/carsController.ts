@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 
 import { Request, Response } from "express";
 import carService from "../services/carService.js";
+import carRepository from "../repository/carRepository.js";
 
 async function getAllCars(req: Request, res: Response) {
   try {
@@ -57,11 +58,29 @@ async function deleteCar(req: Request, res: Response) {
   }
 }
 
+async function updateCar(req: Request, res: Response) {
+  const carId = parseInt(req.params.carId);
+  const { model, licensePlate, year, color } = req.body;
+
+  try {
+    await carRepository.updateCar(carId, model, licensePlate, year, color)
+    res.sendStatus(httpStatus.CREATED);
+  } catch (e) {
+    console.log(e);
+    if (e.name === "ConflictError") {
+      return res.sendStatus(httpStatus.CONFLICT);
+    }
+
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
 const carController = {
   getAllCars,
   getSpecificCar,
   createCar,
-  deleteCar
+  deleteCar,
+  updateCar
 }
 
 export default carController;

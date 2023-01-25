@@ -52,12 +52,27 @@ async function deleteCar(id: number) {
   })
 }
 
+async function updateCar(id: number, model: string, licensePlate: string, year: string, color: string) {
+  await prisma.cars.update({
+    where:{
+      id
+    },
+    data: {
+      model,
+      licensePlate,
+      year,
+      color
+    }}
+  )
+}
+
 const carRepository = {
   getCar,
   getCarWithLicensePlate,
   getCars,
   createCar,
-  deleteCar
+  deleteCar,
+  updateCar
 }
 
 export default carRepository;
